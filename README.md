@@ -5,8 +5,8 @@
 1. 编译后生成`workweixinwebhook.dll`
    
 ## 使用示例：
-1. 将`workweixinwebhook.dll`添加到项目中
-1. 引入 `Imports workweixinwebhook`
+1. 将`workweixinwebhook.dll`引用到项目中
+1. Imports `workweixinwebhook`
 1. 定义变量`Dim messageSender As New WeChatMessageSender()`
 1. 调用 `messageSender.SendMessage("需调用的内容")`
 
