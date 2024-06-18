@@ -8,7 +8,7 @@
 1. 将`workweixinwebhook.dll`引用到项目中
 1. Imports `workweixinwebhook`
 1. 定义变量`Dim messageSender As New WeChatMessageSender()`
-1. 调用 `messageSender.SendMessage("需调用的内容")`
+1. 调用 `messageSender.SendMessage("此处填写需调用、发送的内容")`
 
 ## 调用示例：
 ![](https://cdn.jsdelivr.net/gh/ThemanRonin/JPG@main/2024-06-19_07.46.51.png)
