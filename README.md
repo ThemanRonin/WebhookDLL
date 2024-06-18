@@ -1,7 +1,7 @@
 # 基于企业微信webhook制作的dll，方便在程序中直接调用
 
 ## 初步设置
-1. 项目拉取后使用vs2010及以上版本修改`url`的值，将自己的`webhookurl`填入
+1. 项目拉取后使用vs2010及以上版本打开项目`企业微信-Webhook机器人-DLL.sln`后修改`url`的值，将自己的`webhookurl`填入
 1. 编译后生成`workweixinwebhook.dll`作为备用
    
 ## 使用示例：
