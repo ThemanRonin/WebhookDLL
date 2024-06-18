@@ -1,0 +1,16 @@
+X:\vb2010\企业微信-Webhook机器人3\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\企业微信-Webhook机器人-DLL.vbproj.GenerateResource.Cache
+X:\vb2010\企业微信-Webhook机器人3\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\bin\Debug\workweixinwebhook.dll
+X:\vb2010\企业微信-Webhook机器人3\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\bin\Debug\workweixinwebhook.pdb
+X:\vb2010\企业微信-Webhook机器人3\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\bin\Debug\workweixinwebhook.xml
+X:\vb2010\企业微信-Webhook机器人3\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\workweixinwebhook.Resources.resources
+X:\vb2010\企业微信-Webhook机器人3\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\workweixinwebhook.dll
+X:\vb2010\企业微信-Webhook机器人3\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\workweixinwebhook.xml
+X:\vb2010\企业微信-Webhook机器人3\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\workweixinwebhook.pdb
+Z:\缓冲区\2021-06\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\bin\Debug\workweixinwebhook.dll
+Z:\缓冲区\2021-06\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\bin\Debug\workweixinwebhook.pdb
+Z:\缓冲区\2021-06\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\bin\Debug\workweixinwebhook.xml
+Z:\缓冲区\2021-06\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\workweixinwebhook.Resources.resources
+Z:\缓冲区\2021-06\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\企业微信-Webhook机器人-DLL.vbproj.GenerateResource.Cache
+Z:\缓冲区\2021-06\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\workweixinwebhook.dll
+Z:\缓冲区\2021-06\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\workweixinwebhook.xml
+Z:\缓冲区\2021-06\企业微信-Webhook机器人-DLL\企业微信-Webhook机器人-DLL\obj\Debug\workweixinwebhook.pdb
