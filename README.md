@@ -1,8 +1,8 @@
 # 基于企业微信webhook制作的dll，方便在程序中直接调用
 
 ## 初步设置
-1. 项目拉取后使用vs2010及以上版本修改` Dim url As String = ""`部分的值，将自己的`webhookurl`赋予`url`
-1. 编译后生成`workweixinwebhook.dll`
+1. 项目拉取后使用vs2010及以上版本修改`url`的值，将自己的`webhookurl`填入
+1. 编译后生成`workweixinwebhook.dll`作为备用
    
 ## 使用示例：
 1. 将`workweixinwebhook.dll`引用到项目中
