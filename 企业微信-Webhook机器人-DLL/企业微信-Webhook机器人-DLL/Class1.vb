@@ -14,7 +14,8 @@ Public Class WeChatMessageSender
             Dim title As String = ""
 
             ' 构建 JSON 格式的消息内容
-            Dim byteData As Byte() = Encoding.UTF8.GetBytes("{""msgtype"": ""text"", ""text"": {""title"": """ & title & """, ""content"": """ & content & """}}")
+            Dim jsonContent As String = """{"" & Regex.Replace(content, "^", """").Replace("$", """") & """"
+            Dim byteData As Byte() = Encoding.UTF8.GetBytes("{""msgtype"": ""text"", ""text"": {""title"": """ & title & """, ""content"": " & jsonContent & "}}")
 
             ' 创建 HTTP 请求对象
             Dim request As HttpWebRequest = WebRequest.Create(url)
@@ -62,6 +63,5 @@ Public Class WeChatMessageSender
             RaiseEvent ErrorOccurred("发送失败！" & vbCrLf & vbCrLf & "错误信息：" & ex.Message)
         End Try
     End Sub
-
 
 End Class
