@@ -1,5 +1,6 @@
 ## 如何使用群机器人
 
+
 * 在终端某个群组添加机器人之后，创建者可以在机器人详情页看到该机器人特有的webhookurl。开发者可以按以下说明向这个地址发起HTTP POST 请求，即可实现给该群组发送消息。下面举个简单的例子.
   假设webhook是：https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=693a91f6-7xxx-4bc4-97a0-0ec2sifa5aaa
 
