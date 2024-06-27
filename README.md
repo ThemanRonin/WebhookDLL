@@ -1,4 +1,4 @@
-# DLL Based on WeChat Work Webhook for Easy Programmatic Use
+# A DLL created based on the WeCom webhook for enterprises, making it convenient to directly invoke in programs.
 
 ## Initial Setup:        
 1. After pulling the project, use VS2010 or above to open the project `企业微信-Webhook机器人-DLL.sln`. Then modify the value of `url` by filling in your own `webhookurl`. Refer to [https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx].
