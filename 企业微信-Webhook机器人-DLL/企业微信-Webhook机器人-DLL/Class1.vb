@@ -3,17 +3,22 @@ Imports System.Net
 Imports System.Text
 Imports System.Text.RegularExpressions
 
+' 定义一个发送微信消息的类
 Public Class WeChatMessageSender
 
+    ' 定义消息发送成功事件
     Public Event MessageSent(ByVal message As String)
+    ' 定义错误发生事件
     Public Event ErrorOccurred(ByVal errorMessage As String)
 
+    ' 定义发送消息的方法
     Public Sub SendMessage(ByVal content As String)
         Try
-            Dim url As String = ""  '此处替换成自己的企业微信 webhook url
-            Dim title As String = ""
+            ' 定义 webhook URL，用于发送消息
+            Dim url As String = ""  ' 此处替换成自己的企业微信 webhook URL
+            Dim title As String = "" ' 可以根据需求定义消息的标题
 
-            ' 构建 JSON 格式的消息内容
+           ' 构建 JSON 格式的消息内容
             Dim jsonContent As String = """{"" & Regex.Replace(content, "^", """").Replace("$", """") & """"
             Dim byteData As Byte() = Encoding.UTF8.GetBytes("{""msgtype"": ""text"", ""text"": {""title"": """ & title & """, ""content"": " & jsonContent & "}}")
 
@@ -30,37 +35,67 @@ Public Class WeChatMessageSender
             Using requestStream As Stream = request.GetRequestStream()
                 requestStream.Write(byteData, 0, byteData.Length)
             End Using
-            ' 获取响应流
-            Dim responseStream As Stream = request.GetResponse().GetResponseStream()
-            ' 读取响应结果
-            Dim reader As New StreamReader(responseStream)
-            Dim result As String = reader.ReadToEnd()
-            ' 读取错误码映射文件
-            Dim errorCodeLines As String() = File.ReadAllLines(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "errorcode.txt"))
-            ' 从响应结果中提取错误码
-            Dim errCodeMatch As Match = Regex.Match(result, """errcode"":(\d+)")
-            Dim errCode As Integer = 0
-            If errCodeMatch.Success Then
-                Integer.TryParse(errCodeMatch.Groups(1).Value, errCode)
+
+            ' 获取 HTTP 响应对象
+            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+            ' 检查响应状态码
+            If response.StatusCode = HttpStatusCode.OK Then
+                ' 获取响应流
+                Using responseStream As Stream = response.GetResponseStream()
+                    ' 读取响应内容
+                    Using reader As New StreamReader(responseStream)
+                        Dim result As String = reader.ReadToEnd()
+                        
+                        ' 读取错误码映射文件
+                        Dim errorCodeFilePath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "errorcode.txt")
+                        Dim errorCodeLines As String() = File.ReadAllLines(errorCodeFilePath)
+                        
+                        ' 从响应结果中提取错误码
+                        Dim errCodeMatch As Match = Regex.Match(result, """errcode"":(\d+)")
+                        Dim errCode As Integer = 0
+                        If errCodeMatch.Success Then
+                            Integer.TryParse(errCodeMatch.Groups(1).Value, errCode)
+                        End If
+
+                        ' 根据错误码获取错误信息和解决方案
+                        Dim errMsg As String = "未知错误"
+                        Dim errSolution As String = "请参考相关文档或联系技术支持"
+                        For Each line As String In errorCodeLines
+                            Dim fields As String() = line.Split(vbTab)
+                            If fields.Length >= 3 AndAlso fields(0).Trim() = errCode.ToString() Then
+                                errMsg = fields(1).Trim()
+                                errSolution = fields(2).Trim()
+                                Exit For
+                            End If
+                        Next
+
+                        ' 触发 MessageSent 事件,返回响应说明、返回结果和具体说明
+                        RaiseEvent MessageSent("响应说明：" & errMsg & vbCrLf & "返回结果：" & result & vbCrLf & "具体说明：" & errSolution)
+                    End Using
+                End Using
+            Else
+                ' 处理非 200 OK 的响应
+                RaiseEvent ErrorOccurred("HTTP 响应错误，状态码：" & response.StatusCode)
             End If
-
-            ' 根据错误码获取错误信息和解决方案
-            Dim errMsg As String = "未知"
-            Dim errSolution As String = "请参考相关文档或联系技术支持"
-            For Each line As String In errorCodeLines
-                Dim fields As String() = line.Split(vbTab)
-                If fields.Length >= 3 AndAlso fields(0).Trim() = errCode.ToString() Then
-                    errMsg = fields(1).Trim()
-                    errSolution = fields(2).Trim()
-                    Exit For
-                End If
-            Next
-
-            ' 触发 MessageSent 事件,返回响应说明、返回结果和具体说明
-            RaiseEvent MessageSent("响应说明：" & errMsg & vbCrLf & "返回结果：" & result & vbCrLf & "具体说明：" & errSolution)
+        Catch webEx As WebException
+            ' 处理 WebException 异常
+            Dim webResponse As HttpWebResponse = CType(webEx.Response, HttpWebResponse)
+            If webResponse IsNot Nothing Then
+                Using responseStream As Stream = webResponse.GetResponseStream()
+                    Using reader As New StreamReader(responseStream)
+                        Dim errorResponse As String = reader.ReadToEnd()
+                        RaiseEvent ErrorOccurred("WebException 发生：" & webEx.Message & vbCrLf & "响应内容：" & errorResponse)
+                    End Using
+                End Using
+            Else
+                RaiseEvent ErrorOccurred("WebException 发生：" & webEx.Message)
+            End If
+        Catch ioEx As IOException
+            ' 处理 IO 异常
+            RaiseEvent ErrorOccurred("IOException 发生：" & ioEx.Message)
         Catch ex As Exception
-            ' 触发 ErrorOccurred 事件,返回错误信息
-            RaiseEvent ErrorOccurred("发送失败！" & vbCrLf & vbCrLf & "错误信息：" & ex.Message)
+            ' 处理所有其他异常
+            RaiseEvent ErrorOccurred("发送失败！" & vbCrLf & "错误信息：" & ex.Message)
         End Try
     End Sub
 
