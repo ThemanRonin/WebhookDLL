@@ -1627,3 +1627,18 @@ UserID、部门ID、标签ID全部非法或无权限。一般有以下两种原�
 指定的会话参数不合法。请确认：
 1）参数 type 只能指定 single/group
 2）参数 msgtype 只能指定 text/image/file/voice/link
+
+错误码：90208
+小程序appid不匹配。有以下常见原因：
+1) 小程序没有关联到企业，此时若调用发送消息接口发送小程序，会报此错误。
+2) 移动端sdk设置的agentid非小程序应用的agentid，此时调用分享接口分享该小程序，会报此错误。
+
+错误码：91040
+获取ticket的类型无效。jsapi ticket可以通过以下几种获取：
+1）获取jsapi_ticket。这里参数只需要传access_token，不需要带其余的参数，比如type=jsapi
+2）获取电子发票ticket。需要同时指定access_token及type，同时type=wx_card是固定的。
+
+错误码：92002
+不允许跨企业调用。有以下常见错误：
+1) agentConfig调用时执行成员所在企业和传入的参数corpid不匹配
+3) 会话存档获取到的群聊不是本企业创建的，而是另外的企业创建的客户群
