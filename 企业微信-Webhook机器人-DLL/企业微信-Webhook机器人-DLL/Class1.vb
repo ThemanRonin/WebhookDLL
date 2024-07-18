@@ -47,34 +47,36 @@ Public Class WeChatMessageSender
                         ' 读取响应内容
                         Using reader As New StreamReader(responseStream)
                             Dim result As String = reader.ReadToEnd()
-
+                    
                             ' 读取错误码映射文件
                             Dim errorCodeFilePath As String = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "errorcode.txt")
-                            Dim errorCodeLines As String() = File.ReadAllLines(errorCodeFilePath)
-
+                            Dim errorCodeContent As String = File.ReadAllText(errorCodeFilePath)
+                    
                             ' 从响应结果中提取错误码
                             Dim errCodeMatch As Match = Regex.Match(result, """errcode"":(\d+)")
                             Dim errCode As Integer = 0
                             If errCodeMatch.Success Then
                                 Integer.TryParse(errCodeMatch.Groups(1).Value, errCode)
                             End If
-
+                    
                             ' 根据错误码获取错误信息和解决方案
                             Dim errMsg As String = "未知错误"
                             Dim errSolution As String = "请参考相关文档或联系技术支持"
-                            For Each line As String In errorCodeLines
-                                Dim fields As String() = line.Split(vbTab)
-                                If fields.Length >= 3 AndAlso fields(0).Trim() = errCode.ToString() Then
-                                    errMsg = fields(1).Trim()
-                                    errSolution = fields(2).Trim()
-                                    Exit For
-                                End If
-                            Next
-
+                            Dim errCodePattern As String = $"错误码：{errCode}\s+([\s\S]+?)(?=错误码：|\Z)"
+                    
+                            Dim errCodeMatchDetails As Match = Regex.Match(errorCodeContent, errCodePattern, RegexOptions.Multiline)
+                    
+                            If errCodeMatchDetails.Success Then
+                                Dim details As String() = errCodeMatchDetails.Groups(1).Value.Split(New String() {vbCrLf}, StringSplitOptions.None)
+                                errMsg = details(0).Trim()
+                                errSolution = String.Join(vbCrLf, details.Skip(1)).Trim()
+                            End If
+                    
                             ' 触发 MessageSent 事件,返回响应说明、返回结果和具体说明
                             RaiseEvent MessageSent("响应说明：" & errMsg & vbCrLf & "返回结果：" & result & vbCrLf & "具体说明：" & errSolution)
                         End Using
                     End Using
+
                 Else
                     ' 处理非 200 OK 的响应
                     RaiseEvent ErrorOccurred("HTTP 响应错误，状态码：" & response.StatusCode)
